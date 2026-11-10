@@ -23,6 +23,7 @@
     .lead { font-size:17px; line-height:1.8; max-width:470px; color:#625c70; margin:25px 0 28px }
     .button { border:0; cursor:pointer; border-radius:99px; padding:15px 23px; background:var(--ink); color:white; font:600 14px 'DM Sans',sans-serif; box-shadow:0 7px 0 #d6c9d0; transition:transform .15s,box-shadow .15s }
     .button:hover { transform:translateY(3px); box-shadow:0 4px 0 #d6c9d0 }
+    .hero-music { margin-top:18px }
     .portrait-wrap { position:relative; max-width:450px; justify-self:center; width:100% }
     .portrait { position:relative; aspect-ratio: .86; border:9px solid white; border-radius:48% 48% 30px 30px; background:linear-gradient(145deg,#fbd5dd,#e3d8fa 62%,#f9df9a); box-shadow:0 20px 50px #4935581a; overflow:hidden }
     .portrait img { width:100%; height:100%; object-fit:cover; display:block }
@@ -49,6 +50,16 @@
     .reveal { min-height:24px; margin:20px auto 0!important; color:var(--coral)!important; font-weight:700; font-size:18px; transition:all .2s }
     footer { border-top:1px solid #e9dfe2; padding:26px 0 0; display:flex; justify-content:space-between; color:#867d90; font-size:12px }
     .gallery { padding-top:15px }
+    .slideshow { max-width:780px; margin:0 auto 32px; padding:12px; background:#fff; border-radius:22px; box-shadow:0 12px 35px #49355814; position:relative }
+    .slide-frame { position:relative; height:clamp(280px,62vw,520px); border-radius:15px; overflow:hidden; background:#f4eaf1 }
+    .slide-frame img { width:100%; height:100%; object-fit:contain; display:block; transition:opacity .35s ease }
+    .slide-caption { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 5px 2px; color:#776f87; font-size:13px }
+    .slide-controls { display:flex; align-items:center; gap:9px }
+    .slide-arrow { width:38px; height:38px; border:0; border-radius:50%; background:#f6e9ef; color:var(--ink); font-size:20px; cursor:pointer }
+    .slide-arrow:hover { background:#efcfdd }
+    .slide-dots { display:flex; justify-content:center; gap:7px; margin:12px 0 2px }
+    .slide-dot { width:8px; height:8px; border:0; padding:0; border-radius:50%; background:#d9cfdf; cursor:pointer }
+    .slide-dot[aria-current="true"] { background:var(--coral); transform:scale(1.25) }
     .gallery-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:14px }
     .gallery-card { margin:0; padding:8px 8px 13px; background:#fff; border-radius:12px; box-shadow:0 8px 22px #49355812; transform:rotate(var(--tilt,0deg)); overflow:hidden }
     .gallery-card:nth-child(4n+1){--tilt:-1.2deg}.gallery-card:nth-child(4n+2){--tilt:.8deg}.gallery-card:nth-child(4n+3){--tilt:-.5deg}.gallery-card:nth-child(4n){--tilt:1deg}
@@ -70,6 +81,7 @@
         <h1>Happy<br>Birthday,<br><em>Tricia!</em></h1>
         <p class="lead">To my favorite human: may your day be full of excellent cake, unreasonable amounts of love, and absolutely no responsibilities.</p>
         <button class="button" onclick="document.getElementById('surprise').scrollIntoView({behavior:'smooth'})">A tiny birthday surprise ↓</button>
+        <br><button class="music-button hero-music" id="musicButton" type="button" aria-pressed="false">♫ Tap to play the birthday music</button>
       </div>
       <div class="portrait-wrap">
         <span class="spark a">✦</span><span class="spark b">✿</span>
@@ -81,6 +93,11 @@
     </section>
     <section class="section gallery">
       <div class="section-heading"><h2>Tricia, in her element</h2><p>Eight favorite snapshots, just as you sent them 💕</p></div>
+      <div class="slideshow" aria-label="Photo slideshow of Tricia">
+        <div class="slide-frame"><img id="slideImage" src="tricia-photos/IMG-20260406-WA0006.jpg" alt="Tricia standing under a large tree in a red top and jeans"></div>
+        <div class="slide-caption"><span id="slideCaption" aria-live="polite">Our birthday icon ✨</span><div class="slide-controls"><button class="slide-arrow" id="previousSlide" type="button" aria-label="Previous photo">‹</button><span id="slideCount">1 / 8</span><button class="slide-arrow" id="nextSlide" type="button" aria-label="Next photo">›</button></div></div>
+        <div class="slide-dots" id="slideDots" aria-label="Choose a photo"></div>
+      </div>
       <div class="gallery-grid">
         <figure class="gallery-card"><img src="tricia-photos/IMG-20260406-WA0006.jpg" alt="Tricia standing under a large tree in a red top and jeans"><figcaption>Our birthday icon ✨</figcaption></figure>
         <figure class="gallery-card"><img src="tricia-photos/IMG-20260406-WA0011.jpg" alt="Tricia looking down beside a red vehicle"><figcaption>Just doing her thing ❤️</figcaption></figure>
@@ -101,10 +118,56 @@
       </div>
     </section>
     <section class="note"><div class="note-art">💌</div><div><p class="eyebrow">From your person</p><h2>So glad it’s you.</h2><p>Tricia, life is more fun, more colorful, and a whole lot less boring with you in it. I hope this next trip around the sun brings you all the joy you give everyone else—and a cake slice with your name on it. Love you tons!</p></div></section>
-    <section class="surprise" id="surprise"><p class="eyebrow">One last thing…</p><h2>Ready for your birthday wish?</h2><p>Close your eyes, make a wish, and then tap the very official button.</p><button class="music-button" id="musicButton" type="button" aria-pressed="false">♫ Music starts with your first tap</button><br><button class="button" id="wishButton">Make a wish ✨</button><p class="reveal" id="reveal" aria-live="polite"></p></section>
+    <section class="surprise" id="surprise"><p class="eyebrow">One last thing…</p><h2>Ready for your birthday wish?</h2><p>Close your eyes, make a wish, and then tap the very official button.</p><button class="button" id="wishButton">Make a wish ✨</button><p class="reveal" id="reveal" aria-live="polite"></p></section>
     <footer><span>Made with love for Tricia 💖</span><span>Bestie status: permanent</span></footer>
   </main>
   <script>
+    const slides = [
+      ['IMG-20260406-WA0006.jpg','Tricia standing under a large tree in a red top and jeans','Our birthday icon ✨'],
+      ['IMG-20260406-WA0011.jpg','Tricia looking down beside a red vehicle','Just doing her thing ❤️'],
+      ['IMG-20260501-WA0017.jpg','Tricia smiling in front of flowering bushes','That smile 🌺'],
+      ['IMG-20260517-WA0031.jpg','A close-up selfie of Tricia wearing a red and white jacket and a dark hat','Serving the look 💙'],
+      ['IMG-20260620-WA0006.jpg','A playful close-up selfie of Tricia outdoors','Professional pose expert 😘'],
+      ['IMG-20260727-WA0007.jpg','Tricia taking a close-up selfie with a peace sign','Peace, love & birthday wishes ✌🏾'],
+      ['IMG-20260803-WA0009.jpg','A sideways selfie of Tricia in a green top','Cutie on camera 💚'],
+      ['IMG-20260803-WA0010.jpg','A selfie of Tricia with long braids and a green top','One more because we can 💖']
+    ];
+    let currentSlide = 0;
+    let slideTimer;
+    const slideImage = document.getElementById('slideImage');
+    const slideCaption = document.getElementById('slideCaption');
+    const slideCount = document.getElementById('slideCount');
+    const slideDots = document.getElementById('slideDots');
+    function showSlide(index) {
+      currentSlide = (index + slides.length) % slides.length;
+      slideImage.style.opacity = '0.25';
+      window.setTimeout(() => {
+        const [file, alt, caption] = slides[currentSlide];
+        slideImage.src = `tricia-photos/${file}`;
+        slideImage.alt = alt;
+        slideCaption.textContent = caption;
+        slideCount.textContent = `${currentSlide + 1} / ${slides.length}`;
+        [...slideDots.children].forEach((dot, dotIndex) => dot.setAttribute('aria-current', dotIndex === currentSlide ? 'true' : 'false'));
+        slideImage.style.opacity = '1';
+      }, 140);
+      resetSlideTimer();
+    }
+    function resetSlideTimer() {
+      window.clearInterval(slideTimer);
+      slideTimer = window.setInterval(() => showSlide(currentSlide + 1), 5000);
+    }
+    slides.forEach((slide, index) => {
+      const dot = document.createElement('button');
+      dot.type = 'button';
+      dot.className = 'slide-dot';
+      dot.setAttribute('aria-label', `Show photo ${index + 1}`);
+      dot.setAttribute('aria-current', index === 0 ? 'true' : 'false');
+      dot.addEventListener('click', () => showSlide(index));
+      slideDots.appendChild(dot);
+    });
+    document.getElementById('previousSlide').addEventListener('click', () => showSlide(currentSlide - 1));
+    document.getElementById('nextSlide').addEventListener('click', () => showSlide(currentSlide + 1));
+    resetSlideTimer();
     let audioContext;
     let tuneTimer;
     let tuneStep = 0;
@@ -137,22 +200,25 @@
       const chord = progression[index % progression.length];
       chord.forEach((note, i) => {
         // Soft, detuned sine voices form the warm keyboard chord.
-        playVoice(note, startTime, 3.1, 'sine', 0.038, 0.16 + i * 0.035, 1900);
+        playVoice(note, startTime, 3.1, 'sine', 0.075, 0.16 + i * 0.035, 1900);
         // A quiet triangle layer gives the chord a gentle string-like swell.
-        playVoice(note / 2, startTime + 0.04, 3.6, 'triangle', 0.011, 0.8, 720);
+        playVoice(note / 2, startTime + 0.04, 3.6, 'triangle', 0.025, 0.8, 720);
       });
       // Slow, clear melody notes float above the sustained chords.
       const noteIndex = (index * 4) % melody.length;
       for (let i = 0; i < 4; i++) {
-        playVoice(melody[(noteIndex + i) % melody.length], startTime + i * 0.62, 0.85, 'sine', 0.052, 0.04, 2400);
+        playVoice(melody[(noteIndex + i) % melody.length], startTime + i * 0.62, 0.85, 'sine', 0.09, 0.04, 2400);
       }
     }
     async function startBirthdayMusic() {
-      if (musicStarted) return;
-      musicStarted = true;
+      if (musicStarted) {
+        if (audioContext.state === 'suspended') await audioContext.resume();
+        return;
+      }
       audioContext ||= new (window.AudioContext || window.webkitAudioContext)();
       if (audioContext.state === 'suspended') await audioContext.resume();
-      musicButton.textContent = '♫ Soft birthday music is playing';
+      musicStarted = true;
+      musicButton.textContent = '♫ Birthday music is playing';
       musicButton.setAttribute('aria-pressed', 'true');
       tuneStep = 0;
       const playNextChord = () => {
@@ -163,10 +229,11 @@
       tuneTimer = setInterval(playNextChord, 3.5 * 1000);
     }
     const musicButton = document.getElementById('musicButton');
-    ['pointerdown','keydown','touchstart'].forEach((eventName) => {
-      document.addEventListener(eventName, startBirthdayMusic, { once:true, passive:true });
-    });
     musicButton.addEventListener('click', startBirthdayMusic);
+    musicButton.addEventListener('touchend', (event) => {
+      event.preventDefault();
+      startBirthdayMusic();
+    }, {passive:false});
     document.getElementById('wishButton').addEventListener('click', () => {
       document.getElementById('reveal').textContent = 'Wish granted: more cake, more laughs, more you! 🎂💖';
       for (let i = 0; i < 24; i++) {
